@@ -111,3 +111,6 @@ if not token:
 print(f"Token found: {token[:10]}... Starting bot!")
 Thread(target=run).start()  # Start Flask server in background
 bot.run(token)  # Start bot
+@bot.event
+async def on_error(event, *args):
+    print(f"Error in {event}: {args}")
