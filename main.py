@@ -78,10 +78,9 @@ async def status(ctx):
 
     except Exception as e:
         await ctx.send(f"⚠ Error checking status: {str(e)}")
-
 @bot.event
 async def on_message(message):
-    if message.author == bot.user:
+    if message.author == bot.user:  # Ignore self
         return
 
     triggers = [
@@ -91,14 +90,16 @@ async def on_message(message):
         'what is the ip?', 'ip kya hen?',
         'ip', 'mc ip', 'hubmc', 'IP'
     ]
-
-    if any(trigger in message.content.lower() for trigger in triggers):
+    
+    # Check if message matches triggers AND isn't a bot command
+    if (any(trigger in message.content.lower() for trigger in triggers) 
+        and not message.content.startswith(bot.command_prefix)):
         await message.channel.send(
-            f"🎮 Minecraft Server IP: {SERVER_IP}\n"  # Auto-updated
+            f"🎮 Minecraft Server IP: {SERVER_IP}\n"
             f"Type !ip for details or !status to check if it's online!"
         )
-
-    await bot.process_commands(message)
+    
+    await bot.process_commands(message)  # Process commands normally
 
 # ========================
 # START EVERYTHING
