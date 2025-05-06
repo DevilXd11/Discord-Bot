@@ -66,7 +66,10 @@ async def status(ctx):
 
             if 'motd' in data:
                 motd = "\n".join(data['motd']['clean'])
-                embed.add_field(name="Message", value=motd, inline=False)
+                # Remove 'kk' from start/end and clean up
+                motd = motd.strip().removeprefix('kk').removesuffix('kk').strip()
+                if motd:  # Only add if not empty after cleaning
+                    embed.add_field(name="Message", value=motd, inline=False)
         else:
             embed = discord.Embed(
                 title="🔴 SERVER OFFLINE",
@@ -78,6 +81,7 @@ async def status(ctx):
 
     except Exception as e:
         await ctx.send(f"⚠ Error checking status: {str(e)}")
+
 @bot.event
 async def on_message(message):
     if message.author == bot.user:  # Ignore self
