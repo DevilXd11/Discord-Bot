@@ -10,7 +10,7 @@ from threading import Thread
 # ========================
 intents = discord.Intents.all()
 bot = commands.Bot(command_prefix='!', intents=intents)
-SERVER_IP = "hubmc.xyz"  # Your Minecraft server IP
+SERVER_IP = "hubmc.pro"  # Updated Minecraft server IP
 
 # ========================
 # FLASK KEEP-ALIVE SERVER
@@ -19,7 +19,7 @@ app = Flask('')
 
 @app.route('/')
 def home():
-    return "Minecraft IP Bot is running! Server: hubmc.xyz"
+    return "Minecraft IP Bot is running! Server: hubmc.pro"  # Updated
 
 def run():
     app.run(host='0.0.0.0', port=8080)
@@ -31,7 +31,7 @@ def run():
 async def on_ready():
     await bot.change_presence(activity=discord.Activity(
         type=discord.ActivityType.watching,
-        name=f"MC Server: {SERVER_IP}"
+        name=f"MC Server: {SERVER_IP}"  # Auto-updated
     ))
     print(f'Bot is ready as {bot.user}')
 
@@ -40,7 +40,7 @@ async def ip(ctx):
     """Get the server IP"""
     embed = discord.Embed(
         title="🏠 Minecraft Server IP",
-        description=f"Connect using:\n`{SERVER_IP}`",
+        description=f"Connect using:\n`{SERVER_IP}`",  # Auto-updated
         color=0x3498db
     )
     await ctx.send(embed=embed)
@@ -49,7 +49,7 @@ async def ip(ctx):
 async def status(ctx):
     """Check server status"""
     try:
-        response = requests.get(f"https://api.mcsrvstat.us/2/{SERVER_IP}")
+        response = requests.get(f"https://api.mcsrvstat.us/2/{SERVER_IP}")  # Auto-updated
         data = response.json()
 
         if data['online']:
@@ -58,7 +58,7 @@ async def status(ctx):
             version = data.get('version', 'Unknown')
 
             embed = discord.Embed(
-                title=f"{status} - {SERVER_IP}",
+                title=f"{status} - {SERVER_IP}",  # Auto-updated
                 color=0x2ecc71
             )
             embed.add_field(name="Players", value=players)
@@ -70,7 +70,7 @@ async def status(ctx):
         else:
             embed = discord.Embed(
                 title="🔴 SERVER OFFLINE",
-                description=f"The server {SERVER_IP} is currently offline",
+                description=f"The server {SERVER_IP} is currently offline",  # Auto-updated
                 color=0xe74c3c
             )
 
@@ -94,7 +94,7 @@ async def on_message(message):
 
     if any(trigger in message.content.lower() for trigger in triggers):
         await message.channel.send(
-            f"🎮 Minecraft Server IP: {SERVER_IP}\n"
+            f"🎮 Minecraft Server IP: {SERVER_IP}\n"  # Auto-updated
             f"Type !ip for details or !status to check if it's online!"
         )
 
