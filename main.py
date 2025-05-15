@@ -102,4 +102,24 @@ async def on_message(message):
     ]
     
     if (any(trigger in message.content.lower() for trigger in triggers) 
-        and not message
+        and not message.content.startswith(bot.command_prefix)):
+        await message.channel.send(
+            f"*You can join our Minecraft server using these IPs:*\n" +
+            f"• MAIN: {MAIN_IP}\n" +
+            "\n".join([f"• ALTERNATE: {ip}" for ip in OTHER_IPS]) +
+            "\n\nUse !ip for the full list or !status to check if the server is online!"
+        )
+    
+    await bot.process_commands(message)
+
+# ========================
+# START EVERYTHING
+# ========================
+token = os.getenv('DISCORD_TOKEN')
+if not token:
+    print("ERROR: Discord token not found! Please add DISCORD_TOKEN in the Secrets tab!")
+    exit(1)
+
+print(f"Token found: {token[:10]}... Starting bot!")
+Thread(target=run).start()
+bot.run(token)
