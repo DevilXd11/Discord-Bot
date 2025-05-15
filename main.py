@@ -1,6 +1,7 @@
 import os
 import discord
 import random
+import requests
 from discord.ext import commands
 from flask import Flask
 from threading import Thread
@@ -114,4 +115,5 @@ if not token:
     exit(1)
 
 print(f"Token found: {token[:10]}... Starting bot!")
-Thread(target=
+Thread(target=run).start()
+bot.run(token)
