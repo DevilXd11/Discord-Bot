@@ -1,6 +1,6 @@
 import os
 import discord
-import requests
+import random
 from discord.ext import commands
 from flask import Flask
 from threading import Thread
@@ -10,7 +10,7 @@ from threading import Thread
 # ========================
 intents = discord.Intents.all()
 bot = commands.Bot(command_prefix='!', intents=intents)
-SERVER_IP = "hubmc.pro"  # Updated Minecraft server IP
+SERVER_IPS = ["PLAY.HUBMC.XYZ", "HUBMC.PRO", "HUBMC.XYZ"]  # All available IPs
 
 # ========================
 # FLASK KEEP-ALIVE SERVER
@@ -19,7 +19,7 @@ app = Flask('')
 
 @app.route('/')
 def home():
-    return "Minecraft IP Bot is running! Server: hubmc.pro"  # Updated
+    return "Minecraft IP Bot is running! Server IPs: " + ", ".join(SERVER_IPS)
 
 def run():
     app.run(host='0.0.0.0', port=8080)
@@ -31,25 +31,26 @@ def run():
 async def on_ready():
     await bot.change_presence(activity=discord.Activity(
         type=discord.ActivityType.watching,
-        name=f"MC Server: {SERVER_IP}"  # Auto-updated
+        name=f"MC Server: {random.choice(SERVER_IPS)}"  # Shows random IP
     ))
     print(f'Bot is ready as {bot.user}')
 
 @bot.command()
 async def ip(ctx):
-    """Get the server IP"""
+    """Get all server IPs"""
     embed = discord.Embed(
-        title="🏠 Minecraft Server IP",
-        description=f"Connect using:\n`{SERVER_IP}`",  # Auto-updated
+        title="🏠 Minecraft Server IPs",
+        description="\n".join([f"• {ip}" for ip in SERVER_IPS]),
         color=0x3498db
     )
     await ctx.send(embed=embed)
 
 @bot.command()
-async def status(ctx):
-    """Check server status"""
+async def status(ctx, ip: str = None):
+    """Check server status (optional: specify IP)"""
     try:
-        response = requests.get(f"https://api.mcsrvstat.us/2/{SERVER_IP}")  # Auto-updated
+        target_ip = ip or random.choice(SERVER_IPS)
+        response = requests.get(f"https://api.mcsrvstat.us/2/{target_ip}")
         data = response.json()
 
         if data['online']:
@@ -58,7 +59,7 @@ async def status(ctx):
             version = data.get('version', 'Unknown')
 
             embed = discord.Embed(
-                title=f"{status} - {SERVER_IP}",  # Auto-updated
+                title=f"{status} - {target_ip}",
                 color=0x2ecc71
             )
             embed.add_field(name="Players", value=players)
@@ -66,14 +67,13 @@ async def status(ctx):
 
             if 'motd' in data:
                 motd = "\n".join(data['motd']['clean'])
-                # Remove 'kk' from start/end and clean up
                 motd = motd.strip().removeprefix('kk').removesuffix('kk').strip()
-                if motd:  # Only add if not empty after cleaning
+                if motd:
                     embed.add_field(name="Message", value=motd, inline=False)
         else:
             embed = discord.Embed(
                 title="🔴 SERVER OFFLINE",
-                description=f"The server {SERVER_IP} is currently offline",  # Auto-updated
+                description=f"The server {target_ip} is currently offline",
                 color=0xe74c3c
             )
 
@@ -84,7 +84,7 @@ async def status(ctx):
 
 @bot.event
 async def on_message(message):
-    if message.author == bot.user:  # Ignore self
+    if message.author == bot.user:
         return
 
     triggers = [
@@ -95,15 +95,15 @@ async def on_message(message):
         'ip', 'mc ip', 'hubmc', 'IP'
     ]
     
-    # Check if message matches triggers AND isn't a bot command
     if (any(trigger in message.content.lower() for trigger in triggers) 
         and not message.content.startswith(bot.command_prefix)):
         await message.channel.send(
-            f"🎮 Minecraft Server IP: {SERVER_IP}\n"
-            f"Type !ip for details or !status to check if it's online!"
+            f"🎮 Minecraft Server IPs:\n" + 
+            "\n".join([f"• {ip}" for ip in SERVER_IPS]) +
+            "\nType !ip for details or !status to check if it's online!"
         )
     
-    await bot.process_commands(message)  # Process commands normally
+    await bot.process_commands(message)
 
 # ========================
 # START EVERYTHING
@@ -114,8 +114,4 @@ if not token:
     exit(1)
 
 print(f"Token found: {token[:10]}... Starting bot!")
-Thread(target=run).start()  # Start Flask server in background
-bot.run(token)  # Start bot
-@bot.event
-async def on_error(event, *args):
-    print(f"Error in {event}: {args}")
+Thread(target=
