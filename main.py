@@ -11,7 +11,10 @@ from threading import Thread
 # ========================
 intents = discord.Intents.all()
 bot = commands.Bot(command_prefix='!', intents=intents)
-SERVER_IPS = ["PLAY.HUBMC.XYZ", "HUBMC.PRO", "HUBMC.XYZ"]  # All available IPs
+
+MAIN_IP = "PLAY.HUBMC.FUN"
+OTHER_IPS = ["HUBMC.XYZ", "HUBMC.PRO"]
+SERVER_IPS = [MAIN_IP] + OTHER_IPS
 
 # ========================
 # FLASK KEEP-ALIVE SERVER
@@ -32,7 +35,7 @@ def run():
 async def on_ready():
     await bot.change_presence(activity=discord.Activity(
         type=discord.ActivityType.watching,
-        name=f"MC Server: {random.choice(SERVER_IPS)}"  # Shows random IP
+        name=f"MC Server: {random.choice(SERVER_IPS)}"
     ))
     print(f'Bot is ready as {bot.user}')
 
@@ -41,7 +44,9 @@ async def ip(ctx):
     """Get all server IPs"""
     embed = discord.Embed(
         title="🏠 Minecraft Server IPs",
-        description="\n".join([f"• {ip}" for ip in SERVER_IPS]),
+        description=f"*Main IP:* {MAIN_IP}\n\n" +
+                    "*Other IPs:*\n" +
+                    "\n".join([f"• {ip}" for ip in OTHER_IPS]),
         color=0x3498db
     )
     await ctx.send(embed=embed)
@@ -93,27 +98,8 @@ async def on_message(message):
         'minecraft server', 'how to join',
         'hubmc', 'mc ip', 'whats the ip', 
         'what is the ip?', 'ip kya hen?',
-        'ip', 'mc ip', 'hubmc', 'IP'
+        'ip', 'IP'
     ]
     
     if (any(trigger in message.content.lower() for trigger in triggers) 
-        and not message.content.startswith(bot.command_prefix)):
-        await message.channel.send(
-            f"🎮 Minecraft Server IPs:\n" + 
-            "\n".join([f"• {ip}" for ip in SERVER_IPS]) +
-            "\nType !ip for details or !status to check if it's online!"
-        )
-    
-    await bot.process_commands(message)
-
-# ========================
-# START EVERYTHING
-# ========================
-token = os.getenv('DISCORD_TOKEN')
-if not token:
-    print("ERROR: Discord token not found! Please add DISCORD_TOKEN in the Secrets tab!")
-    exit(1)
-
-print(f"Token found: {token[:10]}... Starting bot!")
-Thread(target=run).start()
-bot.run(token)
+        and not message
