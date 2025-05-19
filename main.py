@@ -1,6 +1,3 @@
-Here’s your full script with the upgraded, roomier !about owner embed already in place.
-(Only the owner block changed; everything else is unchanged.)
-
 import os
 import discord
 import random
