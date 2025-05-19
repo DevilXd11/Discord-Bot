@@ -17,7 +17,7 @@ OTHER_IPS = ["HUBMC.XYZ", "HUBMC.PRO"]
 SERVER_IPS = [MAIN_IP] + OTHER_IPS
 
 # IMPORTANT: Replace this with a valid public image URL for embed thumbnails!
-LOGO_URL = "https://example.com/your-image.png"
+LOGO_URL = "https://media.discordapp.net/attachments/1347455174645514364/1374024609589887006/dg.png?ex=682c8ba3&is=682b3a23&hm=36d01f3dc831c5c9239443f72576a97adc19feb57a45cbc471812ed13136bffa&=&format=webp&quality=lossless&width=273&height=350"
 
 # ========================
 # FLASK KEEP-ALIVE SERVER
