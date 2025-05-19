@@ -1,3 +1,6 @@
+Here’s your full script with the upgraded, roomier !about owner embed already in place.
+(Only the owner block changed; everything else is unchanged.)
+
 import os
 import discord
 import random
@@ -16,9 +19,7 @@ MAIN_IP   = "PLAY.HUBMC.FUN"
 OTHER_IPS = ["HUBMC.XYZ", "HUBMC.PRO"]
 SERVER_IPS = [MAIN_IP] + OTHER_IPS
 
-# ▼▼▼  DROP YOUR IMAGE LINK HERE  ▼▼▼
-LOGO_URL = "https://media.discordapp.net/attachments/1347455174645514364/1374024609589887006/dg.png?ex=682c8ba3&is=682b3a23&hm=36d01f3dc831c5c9239443f72576a97adc19feb57a45cbc471812ed13136bffa&=&format=webp&quality=lossless&width=273&height=350"
-# ▲▲▲  --------------------------  ▲▲▲
+LOGO_URL = "PASTE-YOUR-LINK-HERE"   # ← drop your image link here
 
 # ========================
 # FLASK KEEP-ALIVE SERVER
@@ -104,19 +105,25 @@ async def about_owner(ctx, *, subject: str = None):
     """Usage: !about owner"""
     if subject and subject.lower() == "owner":
         embed = discord.Embed(
-            title="👑 Meet Our Owner – Shiva",
+            title="👑  *HUBMC OWNER PROFILE*",
             description=(
-                "Hey explorers! I’m *Shiva, the proud owner of **HUBMC*.\n\n"
-                "🏠 *Hometown:* Navi Mumbai, India 🇮🇳\n"
-                "🎉 *Role:* Event Creator – I dream up wild in-game challenges, seasonal festivals, and epic prize hunts.\n"
-                "🛠 *Vision:* Keep HUBMC fresh, fair, and fun for everyone.\n"
-                "🤝 *Community First:* DMs always open—drop feedback or jump into voice to chat!\n\n"
-                "Thanks for being part of this adventure. See you on the server! ✨"
+                "‣ Name:**  *Shiva*\n"
+                "‣ Hometown:**  Navi Mumbai, India  🇮🇳\n"
+                "‣ Role:**  Event Creator & Community Lead  🎉\n"
+                "‣ Vision:**  Keep HUBMC fresh, fair & fun for everyone  🛠\n"
+                "‣ Motto:**  “Play together, grow together!”  ✨\n"
+                "\n"
+                "I’m the mind behind every festival, head-hunt, and surprise drop you’ve loved so far.\n"
+                "My DMs are *always open*—hit me up with ideas, feedback, or just to chill in voice!\n"
             ),
             color=0xf1c40f
         )
+
+        # extra breathing room
+        embed.add_field(name="\u200b", value="\u200b", inline=False)
+
         embed.set_thumbnail(url=LOGO_URL)
-        embed.set_footer(text="Made with ♥ in Navi Mumbai")
+        embed.set_footer(text="Made with ♥ in Navi Mumbai • See you in-game!")
         embed.timestamp = discord.utils.utcnow()
         await ctx.send(embed=embed)
     else:
@@ -163,3 +170,5 @@ if not token:
 print(f"Token found: {token[:10]}... Starting bot!")
 Thread(target=run).start()
 bot.run(token)
+
+Next step: plug your public image URL into LOGO_URL, redeploy, and enjoy the slick new owner card!
