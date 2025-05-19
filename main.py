@@ -92,7 +92,7 @@ async def status(ctx, ip: str = None):
         await ctx.send(f"⚠ Error checking status: {e}")
 
 # ---------- !about owner ----------
-CROWN_ICON = "https://media.discordapp.net/attachments/1279841733214998631/1374021370886881310/image.png?ex=682c889e&is=682b371e&hm=cd7e1f6bd7dabd5d155b449c4e06a70604841edbe727cfc40cca3e4735de80fc&=&format=webp&quality=lossless"        # <- add
+CROWN_ICON = ""        # <- add
 OWNER_PFP  = "https://YOUR-SERVER.com/shiva.png"        # <- add
 
 @bot.command(name="about")
