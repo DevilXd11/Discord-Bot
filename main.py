@@ -105,7 +105,7 @@ async def about_owner(ctx, *, subject: str = None):
                 
                 "‣ Vision:**  Keep HUBMC fresh, fair & fun for everyone  🛠\n"
                 
-                "‣ Motto:**  Play together, grow together!  ✨\n"
+                "‣ Motto:**  Play together, grow together!**  ✨\n"
                 
                 "\n"
                 "I’m the mind behind every festival, head-hunt, and surprise drop you’ve loved so far.\n"
