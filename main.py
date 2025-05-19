@@ -21,7 +21,7 @@ LOGO_URL = "https://example.com/your-image.png"   # <-- Put your actual image UR
 # ========================
 # FLASK KEEP-ALIVE SERVER
 # ========================
-app = Flask(_name_)   # <-- FIXED here!
+app =Flask(__name__)   # <-- FIXED here!
 
 @app.route('/')
 def home():
