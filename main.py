@@ -168,4 +168,4 @@ print(f"Token found: {token[:10]}... Starting bot!")
 Thread(target=run).start()
 bot.run(token)
 
-Next step: plug your public image URL into LOGO_URL, redeploy, and enjoy the slick new owner card!
+# Next step: plug your public image URL into LOGO_URL, redeploy, and enjoy the slick new owner card!
