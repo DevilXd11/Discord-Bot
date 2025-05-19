@@ -12,17 +12,16 @@ from threading import Thread
 intents = discord.Intents.all()
 bot = commands.Bot(command_prefix='!', intents=intents)
 
-MAIN_IP = "PLAY.HUBMC.FUN"
+MAIN_IP   = "PLAY.HUBMC.FUN"
 OTHER_IPS = ["HUBMC.XYZ", "HUBMC.PRO"]
 SERVER_IPS = [MAIN_IP] + OTHER_IPS
 
-# IMPORTANT: Replace this with a valid public image URL for embed thumbnails!
-LOGO_URL = "https://media.discordapp.net/attachments/1347455174645514364/1374024609589887006/dg.png?ex=682c8ba3&is=682b3a23&hm=36d01f3dc831c5c9239443f72576a97adc19feb57a45cbc471812ed13136bffa&=&format=webp&quality=lossless&width=273&height=350"
+LOGO_URL = "https://example.com/your-image.png"   # <-- Put your actual image URL here
 
 # ========================
 # FLASK KEEP-ALIVE SERVER
 # ========================
-app = Flask(_name_)
+app = Flask(_name_)   # <-- FIXED here!
 
 @app.route('/')
 def home():
@@ -37,16 +36,15 @@ def run():
 @bot.event
 async def on_ready():
     await bot.change_presence(activity=discord.Activity(
-        type=discord.ActivityType.watching,
-        name=f"MC Server: {random.choice(SERVER_IPS)}"
+        type = discord.ActivityType.watching,
+        name = f"MC Server: {random.choice(SERVER_IPS)}"
     ))
     print(f'Bot is ready as {bot.user}')
 
 @bot.command()
 async def ip(ctx):
-    """Send all server IPs in a decorative embed"""
     embed = discord.Embed(
-        title="🌐 HUBMC Network – Join the Adventure!",
+        title="🌐  HUBMC Network – Join the Adventure!",
         description=(
             "✨ *Main Address*\n"
             f"{MAIN_IP}\n\n"
@@ -62,12 +60,11 @@ async def ip(ctx):
 
 @bot.command()
 async def status(ctx, ip: str = None):
-    """Check server status (optional: specify IP)"""
     try:
         target_ip = ip or random.choice(SERVER_IPS)
         data = requests.get(f"https://api.mcsrvstat.us/2/{target_ip}").json()
 
-        if data.get('online'):
+        if data['online']:
             players = f"{data['players']['online']}/{data['players']['max']}"
             version = data.get('version', 'Unknown')
 
@@ -75,8 +72,8 @@ async def status(ctx, ip: str = None):
                 title=f"🟢 ONLINE – {target_ip}",
                 color=0x2ecc71
             )
-            embed.add_field(name="Players", value=players)
-            embed.add_field(name="Version", value=version)
+            embed.add_field(name="Players",  value=players)
+            embed.add_field(name="Version",  value=version)
 
             motd = "\n".join(data.get('motd', {}).get('clean', []))
             motd = motd.strip().removeprefix('kk').removesuffix('kk').strip()
@@ -88,6 +85,7 @@ async def status(ctx, ip: str = None):
                 description=f"The server {target_ip} is currently offline",
                 color=0xe74c3c
             )
+
         await ctx.send(embed=embed)
 
     except Exception as e:
@@ -95,16 +93,16 @@ async def status(ctx, ip: str = None):
 
 @bot.command(name="about")
 async def about_owner(ctx, *, subject: str = None):
-    """Usage: !about owner"""
     if subject and subject.lower() == "owner":
         embed = discord.Embed(
-            title="👑 HUBMC OWNER PROFILE",
+            title="👑  *HUBMC OWNER PROFILE*",
             description=(
-                "‣ Name:** Shiva\n"
-                "‣ Hometown:** Navi Mumbai, India 🇮🇳\n"
-                "‣ Role:** Event Creator & Community Lead 🎉\n"
-                "‣ Vision:** Keep HUBMC fresh, fair & fun for everyone 🛠\n"
-                "‣ Motto:** “Play together, grow together!” ✨\n\n"
+                "‣ Name:**  *Shiva*\n"
+                "‣ Hometown:**  Navi Mumbai, India  🇮🇳\n"
+                "‣ Role:**  Event Creator & Community Lead  🎉\n"
+                "‣ Vision:**  Keep HUBMC fresh, fair & fun for everyone  🛠\n"
+                "‣ Motto:**  “Play together, grow together!”  ✨\n"
+                "\n"
                 "I’m the mind behind every festival, head-hunt, and surprise drop you’ve loved so far.\n"
                 "My DMs are *always open*—hit me up with ideas, feedback, or just to chill in voice!\n"
             ),
@@ -129,8 +127,7 @@ async def on_message(message):
         'what is the ip?', 'ip kya hen?', 'ip', 'IP'
     ]
 
-    if (any(t in message.content.lower() for t in triggers)
-        and not message.content.startswith(bot.command_prefix)):
+    if any(t in message.content.lower() for t in triggers) and not message.content.startswith(bot.command_prefix):
         embed = discord.Embed(
             title="🎮 HUBMC Server Info",
             description=(
