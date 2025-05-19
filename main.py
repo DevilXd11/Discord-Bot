@@ -12,9 +12,11 @@ from threading import Thread
 intents = discord.Intents.all()
 bot = commands.Bot(command_prefix='!', intents=intents)
 
-MAIN_IP = "PLAY.HUBMC.FUN"
+MAIN_IP   = "PLAY.HUBMC.FUN"
 OTHER_IPS = ["HUBMC.XYZ", "HUBMC.PRO"]
 SERVER_IPS = [MAIN_IP] + OTHER_IPS
+
+LOGO_URL = "https://example.com/hubmc_logo.png"   # ← drop your real logo link here
 
 # ========================
 # FLASK KEEP-ALIVE SERVER
@@ -34,48 +36,54 @@ def run():
 @bot.event
 async def on_ready():
     await bot.change_presence(activity=discord.Activity(
-        type=discord.ActivityType.watching,
-        name=f"MC Server: {random.choice(SERVER_IPS)}"
+        type = discord.ActivityType.watching,
+        name = f"MC Server: {random.choice(SERVER_IPS)}"
     ))
     print(f'Bot is ready as {bot.user}')
 
+# ---------- Fancy !ip ----------
 @bot.command()
 async def ip(ctx):
-    """Get all server IPs"""
+    """Send all server IPs in a decorative embed"""
     embed = discord.Embed(
-        title="🏠 Minecraft Server IPs",
-        description=f"*Main IP:* {MAIN_IP}\n\n" +
-                    "*Other IPs:*\n" +
-                    "\n".join([f"• {ip}" for ip in OTHER_IPS]),
-        color=0x3498db
+        title="🌐  HUBMC Network – Join the Adventure!",
+        description=(
+            "✨ *Main Address*\n"
+            f"{MAIN_IP}\n\n"
+            "🔗 *Alternate Addresses*\n" +
+            "\n".join([f"{ip}" for ip in OTHER_IPS])
+        ),
+        color=0x00bcd4
     )
+    embed.set_thumbnail(url=LOGO_URL)
+    embed.set_footer(text="See you in-game! 🏹")
+    embed.timestamp = discord.utils.utcnow()
+
     await ctx.send(embed=embed)
 
+# ---------- Server status ----------
 @bot.command()
 async def status(ctx, ip: str = None):
     """Check server status (optional: specify IP)"""
     try:
         target_ip = ip or random.choice(SERVER_IPS)
-        response = requests.get(f"https://api.mcsrvstat.us/2/{target_ip}")
-        data = response.json()
+        data = requests.get(f"https://api.mcsrvstat.us/2/{target_ip}").json()
 
         if data['online']:
-            status = "🟢 ONLINE"
             players = f"{data['players']['online']}/{data['players']['max']}"
             version = data.get('version', 'Unknown')
 
             embed = discord.Embed(
-                title=f"{status} - {target_ip}",
+                title=f"🟢 ONLINE – {target_ip}",
                 color=0x2ecc71
             )
-            embed.add_field(name="Players", value=players)
-            embed.add_field(name="Version", value=version)
+            embed.add_field(name="Players",  value=players)
+            embed.add_field(name="Version",  value=version)
 
-            if 'motd' in data:
-                motd = "\n".join(data['motd']['clean'])
-                motd = motd.strip().removeprefix('kk').removesuffix('kk').strip()
-                if motd:
-                    embed.add_field(name="Message", value=motd, inline=False)
+            motd = "\n".join(data.get('motd', {}).get('clean', []))
+            motd = motd.strip().removeprefix('kk').removesuffix('kk').strip()
+            if motd:
+                embed.add_field(name="Message", value=motd, inline=False)
         else:
             embed = discord.Embed(
                 title="🔴 SERVER OFFLINE",
@@ -86,30 +94,57 @@ async def status(ctx, ip: str = None):
         await ctx.send(embed=embed)
 
     except Exception as e:
-        await ctx.send(f"⚠ Error checking status: {str(e)}")
+        await ctx.send(f"⚠ Error checking status: {e}")
 
+# ---------- !about owner ----------
+@bot.command(name="about")
+async def about_owner(ctx, *, subject: str = None):
+    """Usage: !about owner"""
+    if subject and subject.lower() == "owner":
+        embed = discord.Embed(
+            title="👑 About the Owner",
+            description=(
+                "Hey there! I’m *Shiva, the proud owner of **HUBMC*.\n"
+                "• 🎉 Event Creator – I cook up fun in-game events all the time!\n"
+                "• 🛠 Server Visionary – always polishing HUBMC for players.\n"
+                "• 🤝 Community First – love chatting & getting feedback.\n\n"
+                "Thanks for being part of the adventure! ✨"
+            ),
+            color=0xf1c40f
+        )
+        embed.set_thumbnail(url=LOGO_URL)
+        await ctx.send(embed=embed)
+    else:
+        await ctx.send("Try !about owner 🙂")
+
+# ---------- Message listener ----------
 @bot.event
 async def on_message(message):
     if message.author == bot.user:
         return
 
     triggers = [
-        'ip?', 'server ip', 'what is the ip',
-        'minecraft server', 'how to join',
-        'hubmc', 'mc ip', 'whats the ip', 
-        'what is the ip?', 'ip kya hen?',
-        'ip', 'IP'
+        'ip?', 'server ip', 'what is the ip', 'minecraft server',
+        'how to join', 'hubmc', 'mc ip', 'whats the ip',
+        'what is the ip?', 'ip kya hen?', 'ip', 'IP'
     ]
-    
-    if (any(trigger in message.content.lower() for trigger in triggers) 
+
+    if (any(t in message.content.lower() for t in triggers)
         and not message.content.startswith(bot.command_prefix)):
-        await message.channel.send(
-            f"*You can join our Minecraft server using these IPs:*\n" +
-            f"• MAIN: {MAIN_IP}\n" +
-            "\n".join([f"• ALTERNATE: {ip}" for ip in OTHER_IPS]) +
-            "\n\nUse !ip for the full list or !status to check if the server is online!"
+        
+        embed = discord.Embed(
+            title="🎮 HUBMC Server Info",
+            description=(
+                "Here are the addresses you can use:\n\n"
+                f"*Main:* {MAIN_IP}\n" +
+                "\n".join([f"*Alt {i+1}:* {ip}" for i, ip in enumerate(OTHER_IPS)]) +
+                "\n\nUse **!ip** anytime for this card, or **!status** to see if we’re online!"
+            ),
+            color=0x9b59b6
         )
-    
+        embed.set_thumbnail(url=LOGO_URL)
+        await message.channel.send(embed=embed)
+
     await bot.process_commands(message)
 
 # ========================
