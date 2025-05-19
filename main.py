@@ -16,7 +16,9 @@ MAIN_IP   = "PLAY.HUBMC.FUN"
 OTHER_IPS = ["HUBMC.XYZ", "HUBMC.PRO"]
 SERVER_IPS = [MAIN_IP] + OTHER_IPS
 
-LOGO_URL = "https://example.com/hubmc_logo.png"   # ← drop your real logo link here
+# ▼▼▼  DROP YOUR IMAGE LINK HERE  ▼▼▼
+LOGO_URL = "https://media.discordapp.net/attachments/1347455174645514364/1374024609589887006/dg.png?ex=682c8ba3&is=682b3a23&hm=36d01f3dc831c5c9239443f72576a97adc19feb57a45cbc471812ed13136bffa&=&format=webp&quality=lossless&width=273&height=350"
+# ▲▲▲  --------------------------  ▲▲▲
 
 # ========================
 # FLASK KEEP-ALIVE SERVER
@@ -102,17 +104,20 @@ async def about_owner(ctx, *, subject: str = None):
     """Usage: !about owner"""
     if subject and subject.lower() == "owner":
         embed = discord.Embed(
-            title="👑 About the Owner",
+            title="👑 Meet Our Owner – Shiva",
             description=(
-                "Hey there! I’m *Shiva, the proud owner of **HUBMC*.\n"
-                "• 🎉 Event Creator – I cook up fun in-game events all the time!\n"
-                "• 🛠 Server Visionary – always polishing HUBMC for players.\n"
-                "• 🤝 Community First – love chatting & getting feedback.\n\n"
-                "Thanks for being part of the adventure! ✨"
+                "Hey explorers! I’m *Shiva, the proud owner of **HUBMC*.\n\n"
+                "🏠 *Hometown:* Navi Mumbai, India 🇮🇳\n"
+                "🎉 *Role:* Event Creator – I dream up wild in-game challenges, seasonal festivals, and epic prize hunts.\n"
+                "🛠 *Vision:* Keep HUBMC fresh, fair, and fun for everyone.\n"
+                "🤝 *Community First:* DMs always open—drop feedback or jump into voice to chat!\n\n"
+                "Thanks for being part of this adventure. See you on the server! ✨"
             ),
             color=0xf1c40f
         )
         embed.set_thumbnail(url=LOGO_URL)
+        embed.set_footer(text="Made with ♥ in Navi Mumbai")
+        embed.timestamp = discord.utils.utcnow()
         await ctx.send(embed=embed)
     else:
         await ctx.send("Try !about owner 🙂")
