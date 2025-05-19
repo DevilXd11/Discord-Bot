@@ -98,10 +98,15 @@ async def about_owner(ctx, *, subject: str = None):
             title="👑  *HUBMC OWNER PROFILE*",
             description=(
                 "‣ Name:**  *Shiva*\n"
+                
                 "‣ Hometown:**  Navi Mumbai, India  🇮🇳\n"
+                
                 "‣ Role:**  Event Creator & Community Lead  🎉\n"
+                
                 "‣ Vision:**  Keep HUBMC fresh, fair & fun for everyone  🛠\n"
+                
                 "‣ Motto:**  Play together, grow together!  ✨\n"
+                
                 "\n"
                 "I’m the mind behind every festival, head-hunt, and surprise drop you’ve loved so far.\n"
                 "My DMs are *always open*—hit me up with ideas, feedback, or just to chill in voice!\n"
