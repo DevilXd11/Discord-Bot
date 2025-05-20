@@ -110,7 +110,7 @@ async def about(ctx):
     embed.set_thumbnail(url="https://media.discordapp.net/attachments/1347455174645514364/1374024609589887006/dg.png?ex=682d3463&is=682be2e3&hm=9311c2377716aa93ffc0d6c6ee03d5434dbf74fe569678503011bc37acfdf8b5&=&format=webp&quality=lossless&width=62&height=80")
 
     # Large image inside the embed
-    embed.set_image(url="https://example.com/your-image.png")  # Replace with your desired image URL
+    embed.set_image(url="https://media.discordapp.net/attachments/1347455174645514364/1374024609589887006/dg.png?ex=682d3463&is=682be2e3&hm=9311c2377716aa93ffc0d6c6ee03d5434dbf74fe569678503011bc37acfdf8b5&=&format=webp&quality=lossless&width=62&height=80")  # Replace with your desired image URL
 
     await ctx.send(embed=embed)
 @bot.event
