@@ -91,31 +91,30 @@ async def status(ctx, ip: str = None):
     except Exception as e:
         await ctx.send(f"⚠ Error checking status: {e}")
 
-CUSTOM_CROWN = "<:crownicon:123456789012345678>"  # replace with your custom emoji
+@bot.command()
+async def about(ctx):
+    embed = discord.Embed(
+        title="<:image:1374372573315469432> HUBMC OWNER PROFILE",
+        description=(
+            "‣ Name:**  *Shiva*\n"
+            "‣ Hometown:**  Navi Mumbai, India  🇮🇳\n"
+            "‣ Role:**  Event Creator & Community Lead  🎉\n"
+            "‣ Vision:**  Keep HUBMC fresh, fair & fun for everyone  🛠\n"
+            "‣ Motto:**  “Play together, grow together!”  ✨\n"
+            "\n"
+            "I’m the mind behind every festival, head-hunt, and surprise drop you’ve loved so far.\n"
+            "My DMs are *always open*—hit me up with ideas, feedback, or just to chill in voice!"
+        ),
+        color=0xf1c40f
+    )
 
-@bot.command(name="about")
-async def about_owner(ctx, *, subject: str = None):
-    if subject and subject.lower() == "owner":
-        embed = discord.Embed(
-            title=f"{CUSTOM_CROWN} HUBMC OWNER PROFILE",
-            description=(
-                "‣ Name:**  *Shiva*\n"
-                "‣ Hometown:**  Navi Mumbai, India 🇮🇳\n"
-                "‣ Role:**  Event Creator & Community Lead 🎉\n"
-                "‣ Vision:**  Keep HUBMC fresh, fair & fun for everyone 🛠\n"
-                "‣ Motto:**  “Play together, grow together!”** ✨\n\n"
-                "I’m the mind behind every festival, head-hunt, and surprise drop you’ve loved so far.\n"
-                "My DMs are *always open*—hit me up with ideas, feedback, or just to chill in voice!"
-            ),
-            color=0xf1c40f
-        )
-        embed.set_thumbnail(url="https://media.discordapp.net/attachments/1347455174645514364/1374024609589887006/dg.png?ex=682d3463&is=682be2e3&hm=9311c2377716aa93ffc0d6c6ee03d5434dbf74fe569678503011bc37acfdf8b5&=&format=webp&quality=lossless&width=62&height=80")
-        embed.set_image(url="https://yourdomain.com/shiva-banner.png")  # full-size image inside
-        embed.set_footer(text="Made with ♥ in Navi Mumbai • See you in-game!")
-        await ctx.send(embed=embed)
-    else:
-        await ctx.send("Try !about owner 🙂")
+    # Optional thumbnail (small icon on right)
+    embed.set_thumbnail(url="https://media.discordapp.net/attachments/1347455174645514364/1374024609589887006/dg.png?ex=682d3463&is=682be2e3&hm=9311c2377716aa93ffc0d6c6ee03d5434dbf74fe569678503011bc37acfdf8b5&=&format=webp&quality=lossless&width=62&height=80")
 
+    # Large image inside the embed
+    embed.set_image(url="https://example.com/your-image.png")  # Replace with your desired image URL
+
+    await ctx.send(embed=embed)
 @bot.event
 async def on_message(message):
     if message.author == bot.user:
