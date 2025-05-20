@@ -93,13 +93,14 @@ async def status(ctx, ip: str = None):
 CROWN_EMOJI = "<:image:1374372573315469432>"  # Replace with your actual emoji
 CROWN_ICON  = "https://media.discordapp.net/attachments/1347455174645514364/1374024609589887006/dg.png?ex=682d3463&is=682be2e3&hm=9311c2377716aa93ffc0d6c6ee03d5434dbf74fe569678503011bc37acfdf8b5&=&format=webp&quality=lossless&width=62&height=80"
 OWNER_PFP   = "https://i.imgur.com/ZX7wjcY.png"
+BANNER_IMG  = "https://yourdomain.com/banner.png"  # Replace with your actual banner image URL
 
 @bot.command(name="about")
 async def about_owner(ctx, *, subject: str = None):
     """Usage: !about owner"""
     if subject and subject.lower() == "owner":
         embed = discord.Embed(
-            title=f"{CROWN_EMOJI} HUBMC OWNER PROFILE",  # emoji before title
+            title=f"{CROWN_EMOJI} HUBMC OWNER PROFILE",
             description=(
                 "‣ Name:**  Shiva\n"
                 "‣ Hometown:**  Navi Mumbai, India 🇮🇳\n"
@@ -113,14 +114,9 @@ async def about_owner(ctx, *, subject: str = None):
             timestamp=discord.utils.utcnow()
         )
 
-        # Optional author crown icon (or keep blank if emoji already used above)
         embed.set_author(name=" ", icon_url=CROWN_ICON)
-
-        embed.add_field(name="\u200b", value="\u200b", inline=False)
-
         embed.set_thumbnail(url=OWNER_PFP)
-        embed.set_image(url="https://yourdomain.com/banner.png")  # <--- Add your banner image here
-
+        embed.set_image(url=BANNER_IMG)  # Optional banner at bottom
         embed.set_footer(text="Made with ♥ in Navi Mumbai • See you in-game!")
         await ctx.send(embed=embed)
     else:
