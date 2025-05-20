@@ -119,6 +119,7 @@ async def about_owner(ctx, *, subject: str = None):
         embed.add_field(name="\u200b", value="\u200b", inline=False)
 
         embed.set_thumbnail(url=OWNER_PFP)
+        embed.set_image(url="https://yourdomain.com/banner.png")  # <--- Add your banner image here
 
         embed.set_footer(text="Made with ♥ in Navi Mumbai • See you in-game!")
         await ctx.send(embed=embed)
