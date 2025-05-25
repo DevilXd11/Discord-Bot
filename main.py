@@ -50,8 +50,9 @@ async def ip(ctx):
         title=f"{FIRE_EMOJI} HubMC IP Address {FIRE_EMOJI}",
         color=0xFFA500
     )
-    embed.add_field(name=f"{BOW_EMOJI} IP", value=f"`{MAIN_IP}`", inline=False)
-    embed.add_field(name=f"{BOW_EMOJI} PORT", value=f"`{PORT}`", inline=False)
+    # Removed space between emoji and text here in field name
+    embed.add_field(name=f"{BOW_EMOJI}IP", value=f"`{MAIN_IP}`", inline=False)
+    embed.add_field(name=f"{BOW_EMOJI}PORT", value=f"`{PORT}`", inline=False)
     embed.set_footer(text=f"Requested by {ctx.author.name}")
     await ctx.send(embed=embed)
 
@@ -135,8 +136,8 @@ async def on_message(message):
             title=f"{FIRE_EMOJI} HubMC IP Address {FIRE_EMOJI}",
             color=0xFFA500
         )
-        embed.add_field(name=f"{BOW_EMOJI} IP", value=f"`{MAIN_IP}`", inline=False)
-        embed.add_field(name=f"{BOW_EMOJI} PORT", value=f"`{PORT}`", inline=False)
+        embed.add_field(name=f"{BOW_EMOJI}IP", value=f"`{MAIN_IP}`", inline=False)
+        embed.add_field(name=f"{BOW_EMOJI}PORT", value=f"`{PORT}`", inline=False)
         embed.set_footer(text=f"Requested by {message.author.name}")
         await message.channel.send(embed=embed)
 
