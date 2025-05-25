@@ -17,6 +17,10 @@ PORT      = "19132"
 OTHER_IPS = ["hubmc.xyz", "hubmc.pro"]
 SERVER_IPS = [MAIN_IP] + OTHER_IPS
 
+# Custom Emojis (Replace names with actual emoji names from your server)
+FIRE_EMOJI = "<a:fire_gif:1376182475700703362>"
+BOW_EMOJI  = "<a:enchanted_bow:1376182511922708642>"
+
 # ========================
 # FLASK KEEP-ALIVE SERVER
 # ========================
@@ -35,19 +39,19 @@ def run():
 @bot.event
 async def on_ready():
     await bot.change_presence(activity=discord.Activity(
-        type = discord.ActivityType.watching,
-        name = f"MC Server: {random.choice(SERVER_IPS)}"
+        type=discord.ActivityType.watching,
+        name=f"MC Server: {random.choice(SERVER_IPS)}"
     ))
     print(f'Bot is ready as {bot.user}')
 
 @bot.command()
 async def ip(ctx):
     embed = discord.Embed(
-        title="🔥 HUBMC IP Address 🔥",
+        title=f"{FIRE_EMOJI} HubMC IP Address {FIRE_EMOJI}",
         color=0xFFA500
     )
-    embed.add_field(name="🏹 IP", value=f"`{MAIN_IP}`", inline=False)
-    embed.add_field(name="🏹 PORT", value=f"`{PORT}`", inline=False)
+    embed.add_field(name=f"{BOW_EMOJI} IP", value=f"`{MAIN_IP}`", inline=False)
+    embed.add_field(name=f"{BOW_EMOJI} PORT", value=f"`{PORT}`", inline=False)
     embed.set_footer(text=f"Requested by {ctx.author.name}")
     await ctx.send(embed=embed)
 
@@ -65,8 +69,8 @@ async def status(ctx, ip: str = None):
                 title=f"🟢 ONLINE – {target_ip}",
                 color=0x2ecc71
             )
-            embed.add_field(name="Players",  value=players)
-            embed.add_field(name="Version",  value=version)
+            embed.add_field(name="Players", value=players)
+            embed.add_field(name="Version", value=version)
 
             motd = "\n".join(data.get('motd', {}).get('clean', []))
             motd = motd.strip().removeprefix('kk').removesuffix('kk').strip()
@@ -85,14 +89,13 @@ async def status(ctx, ip: str = None):
         await ctx.send(f"⚠ Error checking status: {e}")
 
 # ---------- !about owner ----------
-CROWN_EMOJI = "<:image:1374372573315469432>"  # Custom emoji
+CROWN_EMOJI = "<:image:1374372573315469432>"
 CROWN_ICON  = "https://media.discordapp.net/attachments/1347455174645514364/1374024609589887006/dg.png?ex=682d3463&is=682be2e3&hm=9311c2377716aa93ffc0d6c6ee03d5434dbf74fe569678503011bc37acfdf8b5&=&format=webp&quality=lossless&width=62&height=80"
 OWNER_PFP   = "https://i.imgur.com/ZX7wjcY.png"
-BANNER_IMG  = "https://yourdomain.com/banner.png"  # Replace with real URL if needed
+BANNER_IMG  = "https://yourdomain.com/banner.png"  # Optional banner image
 
 @bot.command(name="about")
 async def about_owner(ctx, *, subject: str = None):
-    """Usage: !about owner"""
     if subject and subject.lower() == "owner":
         embed = discord.Embed(
             title=f"{CROWN_EMOJI} HUBMC OWNER PROFILE",
@@ -108,7 +111,6 @@ async def about_owner(ctx, *, subject: str = None):
             color=0xf1c40f,
             timestamp=discord.utils.utcnow()
         )
-
         embed.set_author(name=" ", icon_url=CROWN_ICON)
         embed.set_thumbnail(url=OWNER_PFP)
         embed.set_image(url=BANNER_IMG)
@@ -130,11 +132,11 @@ async def on_message(message):
 
     if any(t in message.content.lower() for t in triggers) and not message.content.startswith(bot.command_prefix):
         embed = discord.Embed(
-            title="🔥 HUBMC IP Address 🔥",
+            title=f"{FIRE_EMOJI} HubMC IP Address {FIRE_EMOJI}",
             color=0xFFA500
         )
-        embed.add_field(name="🏹 IP", value=f"`{MAIN_IP}`", inline=False)
-        embed.add_field(name="🏹 PORT", value=f"`{PORT}`", inline=False)
+        embed.add_field(name=f"{BOW_EMOJI} IP", value=f"`{MAIN_IP}`", inline=False)
+        embed.add_field(name=f"{BOW_EMOJI} PORT", value=f"`{PORT}`", inline=False)
         embed.set_footer(text=f"Requested by {message.author.name}")
         await message.channel.send(embed=embed)
 
