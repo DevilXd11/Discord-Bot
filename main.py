@@ -12,11 +12,10 @@ from threading import Thread
 intents = discord.Intents.all()
 bot = commands.Bot(command_prefix='!', intents=intents)
 
-MAIN_IP   = "PLAY.HUBMC.FUN"
-OTHER_IPS = ["HUBMC.XYZ", "HUBMC.PRO"]
+MAIN_IP   = "play.hubmc.fun"
+PORT      = "19132"
+OTHER_IPS = ["hubmc.xyz", "hubmc.pro"]
 SERVER_IPS = [MAIN_IP] + OTHER_IPS
-
-LOGO_URL = "https://cdn.discordapp.com/attachments/1347455174645514364/1374133681917698078/hubmc_logo.png?ex=682d9949&is=682c47c9&hm=360f24f3f20b08ce88b0c748617055b8463795e4c4f10a58e80ad5f2a74c9366&"
 
 # ========================
 # FLASK KEEP-ALIVE SERVER
@@ -44,18 +43,12 @@ async def on_ready():
 @bot.command()
 async def ip(ctx):
     embed = discord.Embed(
-        title="🌐  HUBMC Network – Join the Adventure!",
-        description=(
-            "✨ *Main Address*\n"
-            f"{MAIN_IP}\n\n"
-            "🔗 *Alternate Addresses*\n" +
-            "\n".join([f"{ip}" for ip in OTHER_IPS])
-        ),
-        color=0x00bcd4
+        title="🔥 HUBMC IP Address 🔥",
+        color=0xFFA500
     )
-    embed.set_thumbnail(url=LOGO_URL)
-    embed.set_footer(text="See you in-game! 🏹")
-    embed.timestamp = discord.utils.utcnow()
+    embed.add_field(name="🏹 IP", value=f"`{MAIN_IP}`", inline=False)
+    embed.add_field(name="🏹 PORT", value=f"`{PORT}`", inline=False)
+    embed.set_footer(text=f"Requested by {ctx.author.name}")
     await ctx.send(embed=embed)
 
 @bot.command()
@@ -92,10 +85,10 @@ async def status(ctx, ip: str = None):
         await ctx.send(f"⚠ Error checking status: {e}")
 
 # ---------- !about owner ----------
-CROWN_EMOJI = "<:image:1374372573315469432>"  # Replace with your actual emoji
+CROWN_EMOJI = "<:image:1374372573315469432>"  # Custom emoji
 CROWN_ICON  = "https://media.discordapp.net/attachments/1347455174645514364/1374024609589887006/dg.png?ex=682d3463&is=682be2e3&hm=9311c2377716aa93ffc0d6c6ee03d5434dbf74fe569678503011bc37acfdf8b5&=&format=webp&quality=lossless&width=62&height=80"
 OWNER_PFP   = "https://i.imgur.com/ZX7wjcY.png"
-BANNER_IMG  = "https://yourdomain.com/banner.png"  # Replace with your actual banner image URL
+BANNER_IMG  = "https://yourdomain.com/banner.png"  # Replace with real URL if needed
 
 @bot.command(name="about")
 async def about_owner(ctx, *, subject: str = None):
@@ -137,16 +130,12 @@ async def on_message(message):
 
     if any(t in message.content.lower() for t in triggers) and not message.content.startswith(bot.command_prefix):
         embed = discord.Embed(
-            title="🎮 HUBMC Server Info",
-            description=(
-                "Here are the addresses you can use:\n\n"
-                f"*Main:* {MAIN_IP}\n" +
-                "\n".join([f"*Alt {i+1}:* {ip}" for i, ip in enumerate(OTHER_IPS)]) +
-                "\n\nUse **!ip** anytime for this card, or **!status** to see if we’re online!"
-            ),
-            color=0x9b59b6
+            title="🔥 HUBMC IP Address 🔥",
+            color=0xFFA500
         )
-        embed.set_thumbnail(url=LOGO_URL)
+        embed.add_field(name="🏹 IP", value=f"`{MAIN_IP}`", inline=False)
+        embed.add_field(name="🏹 PORT", value=f"`{PORT}`", inline=False)
+        embed.set_footer(text=f"Requested by {message.author.name}")
         await message.channel.send(embed=embed)
 
     await bot.process_commands(message)
