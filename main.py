@@ -17,9 +17,12 @@ PORT = "19132"
 OTHER_IPS = ["hubmc.xyz", "hubmc.pro"]
 SERVER_IPS = [MAIN_IP] + OTHER_IPS
 
-# Custom Emojis (Replace with actual IDs)
+# Custom Emojis
 FIRE_EMOJI = "<a:fire_gif:1376182475700703362>"
 BOW_EMOJI = "<a:enchanted_bow:1376182511922708642>"
+
+# Thumbnail image (adjust as needed)
+THUMBNAIL_URL = "https://i.imgur.com/GKmqhho.png"  # Example image
 
 # ========================
 # FLASK KEEP-ALIVE SERVER
@@ -48,12 +51,11 @@ async def on_ready():
 async def ip(ctx):
     embed = discord.Embed(color=0xFFA500)
     embed.description = (
-        f"**{FIRE_EMOJI} HubMC IP Address {FIRE_EMOJI}**\n"
-        f"**IP**\n"
-        f"{BOW_EMOJI} `{MAIN_IP}`\n"
-        f"**PORT**\n"
-        f"{BOW_EMOJI} `{PORT}`"
+        f"**{FIRE_EMOJI} HubMC IP Address {FIRE_EMOJI}**\n\n"
+        f"{BOW_EMOJI} **IP:** `{MAIN_IP}`\n"
+        f"{BOW_EMOJI} **PORT:** `{PORT}`"
     )
+    embed.set_thumbnail(url=THUMBNAIL_URL)
     embed.set_footer(text=f"Requested by {ctx.author.name}")
     await ctx.send(embed=embed)
 
@@ -92,7 +94,7 @@ async def status(ctx, ip: str = None):
 
 # ---------- !about owner ----------
 CROWN_EMOJI = "<:image:1374372573315469432>"
-CROWN_ICON = "https://media.discordapp.net/attachments/1347455174645514364/1374024609589887006/dg.png?ex=682d3463&is=682be2e3&hm=9311c2377716aa93ffc0d6c6ee03d5434dbf74fe569678503011bc37acfdf8b5&=&format=webp&quality=lossless&width=62&height=80"
+CROWN_ICON = "https://media.discordapp.net/attachments/1347455174645514364/1374024609589887006/dg.png"
 OWNER_PFP = "https://i.imgur.com/ZX7wjcY.png"
 BANNER_IMG = "https://yourdomain.com/banner.png"  # Optional
 
@@ -135,12 +137,11 @@ async def on_message(message):
     if any(t in message.content.lower() for t in triggers) and not message.content.startswith(bot.command_prefix):
         embed = discord.Embed(color=0xFFA500)
         embed.description = (
-            f"**{FIRE_EMOJI} HubMC IP Address {FIRE_EMOJI}**\n"
-            f"**IP**\n"
-            f"{BOW_EMOJI} `{MAIN_IP}`\n"
-            f"**PORT**\n"
-            f"{BOW_EMOJI} `{PORT}`"
+            f"**{FIRE_EMOJI} HubMC IP Address {FIRE_EMOJI}**\n\n"
+            f"{BOW_EMOJI} **IP:** `{MAIN_IP}`\n"
+            f"{BOW_EMOJI} **PORT:** `{PORT}`"
         )
+        embed.set_thumbnail(url=THUMBNAIL_URL)
         embed.set_footer(text=f"Requested by {message.author.name}")
         await message.channel.send(embed=embed)
 
