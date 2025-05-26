@@ -46,11 +46,15 @@ async def on_ready():
 
 @bot.command()
 async def ip(ctx):
-    embed = discord.Embed(color=0xFFA500)
-    embed.description = (
-        f"**{FIRE_EMOJI} HubMC IP Address {FIRE_EMOJI}**\n\n"
-        f"**IP**\n{BOW_EMOJI} `{MAIN_IP}`\n\n"
-        f"**PORT**\n{BOW_EMOJI} `{PORT}`"
+    embed = discord.Embed(
+        title=f"{FIRE_EMOJI} HubMC IP Address {FIRE_EMOJI}",
+        description=(
+            f"**IP**\n"
+            f"{BOW_EMOJI} `{MAIN_IP}`\n"
+            f"**PORT**\n"
+            f"{BOW_EMOJI} `{PORT}`"
+        ),
+        color=0xFFA500
     )
     embed.set_footer(text=f"Requested by {ctx.author.name}")
     await ctx.send(embed=embed)
@@ -131,11 +135,15 @@ async def on_message(message):
     ]
 
     if any(t in message.content.lower() for t in triggers) and not message.content.startswith(bot.command_prefix):
-        embed = discord.Embed(color=0xFFA500)
-        embed.description = (
-            f"**{FIRE_EMOJI} HubMC IP Address {FIRE_EMOJI}**\n\n"
-            f"**IP**\n{BOW_EMOJI} `{MAIN_IP}`\n\n"
-            f"**PORT**\n{BOW_EMOJI} `{PORT}`"
+        embed = discord.Embed(
+            title=f"{FIRE_EMOJI} HubMC IP Address {FIRE_EMOJI}",
+            description=(
+                f"**IP**\n"
+                f"{BOW_EMOJI} `{MAIN_IP}`\n"
+                f"**PORT**\n"
+                f"{BOW_EMOJI} `{PORT}`"
+            ),
+            color=0xFFA500
         )
         embed.set_footer(text=f"Requested by {message.author.name}")
         await message.channel.send(embed=embed)
