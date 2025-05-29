@@ -61,21 +61,37 @@ async def ip(ctx):
 @bot.command()
 async def status(ctx, ip: str = None):
     try:
-        target_ip = ip or random.choice(SERVER_IPS)
-        data = requests.get(f"https://api.mcsrvstat.us/2/{target_ip}").json()
-        if data['online']:
-            players = f"{data['players']['online']}/{data['players']['max']}"
-            version = data.get('version', 'Unknown')
-            embed = discord.Embed(title=f"🟢 ONLINE – {target_ip}", color=0x2ecc71)
+        target_ips = [ip] if ip else SERVER_IPS
+        online_data = None
+        chosen_ip = None
+
+        for test_ip in target_ips:
+            try:
+                data = requests.get(f"https://api.mcsrvstat.us/2/{test_ip}", timeout=2).json()
+                if data.get('online'):
+                    online_data = data
+                    chosen_ip = test_ip
+                    break
+            except:
+                continue
+
+        if online_data:
+            players = f"{online_data['players']['online']}/{online_data['players']['max']}"
+            version = online_data.get('version', 'Unknown')
+            motd = "\n".join(online_data.get('motd', {}).get('clean', []))
+            motd = motd.strip().removeprefix('kk').removesuffix('kk').strip()
+
+            embed = discord.Embed(title=f"🟢 ONLINE – {chosen_ip}", color=0x2ecc71)
             embed.add_field(name="Players", value=players)
             embed.add_field(name="Version", value=version)
-            motd = "\n".join(data.get('motd', {}).get('clean', []))
-            motd = motd.strip().removeprefix('kk').removesuffix('kk').strip()
             if motd:
                 embed.add_field(name="Message", value=motd, inline=False)
         else:
-            embed = discord.Embed(title="🔴 SERVER OFFLINE", description=f"The server {target_ip} is currently offline", color=0xe74c3c)
+            embed = discord.Embed(title="🔴 SERVER OFFLINE", description="All servers are currently offline.", color=0xe74c3c)
+
+        embed.set_footer(text=f"Requested by {ctx.author.name}", icon_url=ctx.author.avatar.url if ctx.author.avatar else None)
         await ctx.send(embed=embed)
+
     except Exception as e:
         await ctx.send(f"⚠ Error checking status: {e}")
 
@@ -85,7 +101,7 @@ async def status(ctx, ip: str = None):
 CROWN_EMOJI = "<:image:1374372573315469432>"
 CROWN_ICON = "https://media.discordapp.net/attachments/1347455174645514364/1374024609589887006/dg.png"
 OWNER_PFP = "https://i.imgur.com/ZX7wjcY.png"
-BANNER_IMG = "https://yourdomain.com/banner.png"  # Optional
+BANNER_IMG = "https://yourdomain.com/banner.png"
 
 @bot.command(name="about")
 async def about_owner(ctx, *, subject: str = None):
@@ -120,7 +136,6 @@ async def on_message(message):
     if message.author.bot:
         return
 
-    # Ignore channels in INFORMATION category
     if message.channel.category and message.channel.category.name.upper() == "INFORMATION":
         return
 
@@ -128,8 +143,8 @@ async def on_message(message):
 
     responses = {
         "who is the owner": "👑 The owner of HubMC is **Shiva**.",
-        "what is the ip": f"**{FIRE_EMOJI} HubMC IP Address {FIRE_EMOJI}**\n\n{BOW_EMOJI} **IP:** `{MAIN_IP}`\n{BOW_EMOJI} **PORT:** `{PORT}`",
-        "hubmc": f"**{FIRE_EMOJI} HubMC IP Address {FIRE_EMOJI}**\n\n{BOW_EMOJI} **IP:** `{MAIN_IP}`\n{BOW_EMOJI} **PORT:** `{PORT}`",
+        "what is the ip": f"**{FIRE_EMOJI} HubMC IP Address {FIRE_EMOJI}**\n{BOW_EMOJI} **IP:** `{MAIN_IP}`\n{BOW_EMOJI} **PORT:** `{PORT}`",
+        "hubmc ": f"**{FIRE_EMOJI} HubMC IP Address {FIRE_EMOJI}**\n{BOW_EMOJI} **IP:** `{MAIN_IP}`\n{BOW_EMOJI} **PORT:** `{PORT}`",
         "how to join": f"To join, use IP: `{MAIN_IP}` and Port: `{PORT}` in Minecraft.",
         "what is in survival": "🏕️ In Survival mode, you can:\n• Build & survive in the wild\n• Explore dungeons\n• Complete quests\n• PvE boss fights",
         "what is in pvp": "⚔️ In PvP mode, you can:\n• Battle players in arenas\n• Join ranked fights\n• Earn coins from kills\n• Use kits & enchantments"
