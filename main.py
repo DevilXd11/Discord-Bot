@@ -55,7 +55,7 @@ async def ip(ctx):
         f"{BOW_EMOJI} **PORT:** `{PORT}`"
     )
     embed.set_thumbnail(url=THUMBNAIL_URL)
-    embed.set_footer(text=f"Requested by {ctx.author}", icon_url=ctx.author.display_avatar.url)
+    embed.set_footer(text=f"Requested by {ctx.author.name}", icon_url=ctx.author.avatar.url if ctx.author.avatar else None)
     await ctx.send(embed=embed)
 
 @bot.command()
@@ -75,7 +75,6 @@ async def status(ctx, ip: str = None):
                 embed.add_field(name="Message", value=motd, inline=False)
         else:
             embed = discord.Embed(title="🔴 SERVER OFFLINE", description=f"The server {target_ip} is currently offline", color=0xe74c3c)
-        embed.set_footer(text=f"Requested by {ctx.author}", icon_url=ctx.author.display_avatar.url)
         await ctx.send(embed=embed)
     except Exception as e:
         await ctx.send(f"⚠ Error checking status: {e}")
@@ -108,7 +107,7 @@ async def about_owner(ctx, *, subject: str = None):
         embed.set_author(name=" ", icon_url=CROWN_ICON)
         embed.set_thumbnail(url=OWNER_PFP)
         embed.set_image(url=BANNER_IMG)
-        embed.set_footer(text=f"Requested by {ctx.author}", icon_url=ctx.author.display_avatar.url)
+        embed.set_footer(text="Made with ♥ in Navi Mumbai • See you in-game!")
         await ctx.send(embed=embed)
     else:
         await ctx.send("Try !about owner 🙂")
@@ -129,8 +128,8 @@ async def on_message(message):
 
     responses = {
         "who is the owner": "👑 The owner of HubMC is **Shiva**.",
-        "what is the ip": f"**{FIRE_EMOJI} HubMC IP Address {FIRE_EMOJI}**\n{BOW_EMOJI} **IP:** `{MAIN_IP}`\n{BOW_EMOJI} **PORT:** `{PORT}`",
-        "hubmc": f"**{FIRE_EMOJI} HubMC IP Address {FIRE_EMOJI}**\n{BOW_EMOJI} **IP:** `{MAIN_IP}`\n{BOW_EMOJI} **PORT:** `{PORT}`",
+        "what is the ip": f"**{FIRE_EMOJI} HubMC IP Address {FIRE_EMOJI}**\n\n{BOW_EMOJI} **IP:** `{MAIN_IP}`\n{BOW_EMOJI} **PORT:** `{PORT}`",
+        "hubmc": f"**{FIRE_EMOJI} HubMC IP Address {FIRE_EMOJI}**\n\n{BOW_EMOJI} **IP:** `{MAIN_IP}`\n{BOW_EMOJI} **PORT:** `{PORT}`",
         "how to join": f"To join, use IP: `{MAIN_IP}` and Port: `{PORT}` in Minecraft.",
         "what is in survival": "🏕️ In Survival mode, you can:\n• Build & survive in the wild\n• Explore dungeons\n• Complete quests\n• PvE boss fights",
         "what is in pvp": "⚔️ In PvP mode, you can:\n• Battle players in arenas\n• Join ranked fights\n• Earn coins from kills\n• Use kits & enchantments"
@@ -141,7 +140,7 @@ async def on_message(message):
         if question in content:
             embed = discord.Embed(description=reply, color=0xFFA500)
             embed.set_thumbnail(url=THUMBNAIL_URL)
-            embed.set_footer(text=f"Requested by {message.author}", icon_url=message.author.display_avatar.url)
+            embed.set_footer(text=f"Requested by {message.author.name}", icon_url=message.author.avatar.url if message.author.avatar else None)
             await message.channel.send(embed=embed)
             sent = True
             break
@@ -154,7 +153,7 @@ async def on_message(message):
                 color=0xFFA500
             )
             embed.set_thumbnail(url=THUMBNAIL_URL)
-            embed.set_footer(text=f"Requested by {message.author}", icon_url=message.author.display_avatar.url)
+            embed.set_footer(text=f"Requested by {message.author.name}", icon_url=message.author.avatar.url if message.author.avatar else None)
             await message.channel.send(embed=embed)
 
     await bot.process_commands(message)
