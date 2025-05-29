@@ -55,7 +55,7 @@ async def ip(ctx):
         f"{BOW_EMOJI} **PORT:** `{PORT}`"
     )
     embed.set_thumbnail(url=THUMBNAIL_URL)
-    embed.set_footer(text=f"Requested by {ctx.author.name}")
+    embed.set_footer(text=f"Requested by {ctx.author}", icon_url=ctx.author.display_avatar.url)
     await ctx.send(embed=embed)
 
 @bot.command()
@@ -75,6 +75,7 @@ async def status(ctx, ip: str = None):
                 embed.add_field(name="Message", value=motd, inline=False)
         else:
             embed = discord.Embed(title="🔴 SERVER OFFLINE", description=f"The server {target_ip} is currently offline", color=0xe74c3c)
+        embed.set_footer(text=f"Requested by {ctx.author}", icon_url=ctx.author.display_avatar.url)
         await ctx.send(embed=embed)
     except Exception as e:
         await ctx.send(f"⚠ Error checking status: {e}")
@@ -107,7 +108,7 @@ async def about_owner(ctx, *, subject: str = None):
         embed.set_author(name=" ", icon_url=CROWN_ICON)
         embed.set_thumbnail(url=OWNER_PFP)
         embed.set_image(url=BANNER_IMG)
-        embed.set_footer(text="Made with ♥ in Navi Mumbai • See you in-game!")
+        embed.set_footer(text=f"Requested by {ctx.author}", icon_url=ctx.author.display_avatar.url)
         await ctx.send(embed=embed)
     else:
         await ctx.send("Try !about owner 🙂")
@@ -140,6 +141,7 @@ async def on_message(message):
         if question in content:
             embed = discord.Embed(description=reply, color=0xFFA500)
             embed.set_thumbnail(url=THUMBNAIL_URL)
+            embed.set_footer(text=f"Requested by {message.author}", icon_url=message.author.display_avatar.url)
             await message.channel.send(embed=embed)
             sent = True
             break
@@ -152,6 +154,7 @@ async def on_message(message):
                 color=0xFFA500
             )
             embed.set_thumbnail(url=THUMBNAIL_URL)
+            embed.set_footer(text=f"Requested by {message.author}", icon_url=message.author.display_avatar.url)
             await message.channel.send(embed=embed)
 
     await bot.process_commands(message)
