@@ -18,8 +18,8 @@ OTHER_IPS = ["hubmc.xyz", "hubmc.pro"]
 SERVER_IPS = [MAIN_IP] + OTHER_IPS
 
 FIRE_EMOJI = "<a:Fire:1416306773505085462>"
-BOW_EMOJI = "<a:bow_arrows_gif:1079008620106240052>"
-THUMBNAIL_URL = "https://i.imgur.com/TMroOHJ.png"
+BOW_EMOJI = "<a:1079008620106240052:1416310758806917211>"
+THUMBNAIL_URL = "https://imgur.com/Dv1sUPb.png"
 
 # ========================
 # FLASK KEEP-ALIVE SERVER
