@@ -99,8 +99,8 @@ async def status(ctx, ip: str = None):
 # ABOUT OWNER
 # ================
 CROWN_EMOJI = "<:image:1374372573315469432>"
-CROWN_ICON = "https://media.discordapp.net/attachments/1347455174645514364/1374024609589887006/dg.png"
-OWNER_PFP = "https://i.imgur.com/ZX7wjcY.png"
+CROWN_ICON = "https://media.discordapp.net/attachments/1279841733214998631/1374020142920368280/1739718459876.png?ex=68c61e3a&is=68c4ccba&hm=7dc07d2fef9a14856098a68b25c679c3809d5dfcfa2b8225b32d97ba322e7152&=&format=webp&quality=lossless&width=481&height=618"
+OWNER_PFP = "https://i.imgur.com/TMroOHJ.png"
 BANNER_IMG = "https://yourdomain.com/banner.png"
 
 @bot.command(name="about")
